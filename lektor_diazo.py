@@ -6,6 +6,8 @@
 # :Copyright: Copyright © 2016 Alberto Berti
 #
 
+from __future__ import unicode_literals, absolute_import, print_function
+
 from codecs import open
 import os
 
