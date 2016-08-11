@@ -22,9 +22,9 @@ with open(os.path.join(here, 'version.txt'), encoding='utf-8') as f:
 
 
 setup(
-    name='lektor-diazo',
+    name='lektor-diazotheme',
     version=VERSION,
-    url="https://github.com/azazel75/lekto-diazo",
+    url="https://github.com/azazel75/lektor-diazo-theme",
 
     description="A package to postprocess html artifacts with diazo",
     long_description=README + u'\n\n' + CHANGES,
@@ -33,10 +33,10 @@ setup(
     license='LGPL3+',
     py_modules=['lektor_diazo'],
     install_requires=['diazo'],
-    extras_require={'dev': ['metapensiero.tool.bump_version']},
+ #   extras_require={'dev': ['metapensiero.tool.bump_version']},
     entry_points={
         'lektor.plugins': [
-            'lektor-diazo = lektor_diazo:DiazoThemePlugin',
+            'diazotheme = lektor_diazo:DiazoThemePlugin',
         ]
     },
     classifiers=[
