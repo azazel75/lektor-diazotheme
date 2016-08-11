@@ -7,9 +7,9 @@
 .. :Copyright: Copyright © 2016 Alberto Berti
 ..
 
-==============
- lektor-diazo
-==============
+===================
+ lektor-diazotheme
+===================
 
 Introduction
 ============
