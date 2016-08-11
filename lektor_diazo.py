@@ -6,12 +6,19 @@
 # :Copyright: Copyright © 2016 Alberto Berti
 #
 
+from codecs import open
+import os
+
 from lektor.pluginsystem import Plugin
+
+here = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+    README = f.read()
 
 
 class DiazoThemePlugin(Plugin):
-    name = u'Diazo themes for Lektor'
-    description = u'Add your description here.'
+    name = 'Diazo themes for Lektor'
+    description = README
 
     def on_process_template_context(self, context, **extra):
         def test_function():
