@@ -20,7 +20,5 @@ class DiazoThemePlugin(Plugin):
     name = 'Diazo themes for Lektor'
     description = README
 
-    def on_process_template_context(self, context, **extra):
-        def test_function():
-            return 'Value from plugin %s' % self.name
-        context['test_function'] = test_function
+    def on_after_build(self, builder, build_state, source, prog, **extra):
+        print('after-build called')
