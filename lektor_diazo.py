@@ -14,6 +14,7 @@ import re
 
 import click
 from diazo.compiler import compile_theme
+from diazo.utils import quote_param
 from lektor.pluginsystem import Plugin
 from lxml import etree, html
 
@@ -21,7 +22,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     README = f.read()
 
-doctype_re= re.compile(b"^<!DOCTYPE\\s[^>]+>\\s*", re.MULTILINE)
+doctype_re = re.compile(b"^<!DOCTYPE\\s[^>]+>\\s*", re.MULTILINE)
 
 
 class DiazoThemePlugin(Plugin):
@@ -31,7 +32,10 @@ class DiazoThemePlugin(Plugin):
     charset = 'UTF-8'
     doctype = '<!DOCTYPE html>'
     file_encoding = 'utf-8'
-    ignored_extensions=(
+    valid_extensions = (
+        'html',
+    )
+    ignored_extensions = (
         'js', 'css', 'gif', 'jpg', 'jpeg', 'pdf', 'ps', 'doc',
         'png', 'ico', 'mov', 'mpg', 'mpeg', 'mp3', 'm4a', 'txt',
         'rtf', 'swf', 'wav', 'zip', 'wmv', 'ppt', 'gz', 'tgz',
@@ -72,6 +76,8 @@ class DiazoThemePlugin(Plugin):
         else:
             self.transform = None # disabled
 
+        self.valid_pattern = re.compile(
+            "^.*\.(%s)$" % '|'.join(self.valid_extensions))
         self.ignored_pattern = re.compile(
             "^.*\.(%s)$" % '|'.join(self.ignored_extensions))
 
@@ -81,10 +87,12 @@ class DiazoThemePlugin(Plugin):
             return
         sign = click.style('T', fg='blue')
         for art in build_state.updated_artifacts:
-            if self.ignored_pattern.search(art.dst_filename) is None:
+            if self.valid_pattern.search(art.dst_filename) is not None:
                 with open(art.dst_filename, encoding=self.file_encoding) as f:
-                    tree = self._parse_file(f)
-                res_tree = self.transform(tree)
+                    src_tree = self._parse_file(f)
+                res_tree = self.transform(src_tree,
+                    path=quote_param(art.artifact_name)
+                )
                 self._serialize_etree(res_tree, art.dst_filename)
                 text = '%s %s' % (sign, art.artifact_name)
                 click.echo(text)
