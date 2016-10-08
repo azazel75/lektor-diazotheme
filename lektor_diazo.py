@@ -18,16 +18,16 @@ from diazo.utils import quote_param
 from lektor.pluginsystem import Plugin
 from lxml import etree, html
 
-here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
-    README = f.read()
+DESCRIPTION = """
+This plugin filters HTML generated pages through diazo.
+"""
 
 doctype_re = re.compile(b"^<!DOCTYPE\\s[^>]+>\\s*", re.MULTILINE)
 
 
 class DiazoThemePlugin(Plugin):
     name = 'Diazo themes for Lektor'
-    description = README
+    description = DESCRIPTION
 
     charset = 'UTF-8'
     doctype = '<!DOCTYPE html>'
